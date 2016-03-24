@@ -1,0 +1,208 @@
+---
+# Copyright 2016, Comcast Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Create developer mode constraint file
+  copy:
+    dest: "/opt/developer-pip-constraints.txt"
+    content: |
+      {% for item in rally_developer_constraints %}
+      {{ item }}
+      {% endfor %}
+  when:
+    - rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Clone requirements git repository
+  git:
+    repo: "{{ rally_requirements_git_repo }}"
+    dest: "/opt/requirements"
+    clone: yes
+    update: yes
+    version: "{{ rally_requirements_git_install_branch }}"
+  when:
+    - rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Add constraints to pip_install_options fact for developer mode
+  set_fact:
+    pip_install_options_fact: "{{ pip_install_options|default('') }} --constraint /opt/developer-pip-constraints.txt --constraint /opt/requirements/upper-constraints.txt"
+  when:
+    - rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Set pip_install_options_fact when not in developer mode
+  set_fact:
+    pip_install_options_fact: "{{ pip_install_options|default('') }}"
+  when:
+    - not rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Install requires pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+    extra_args: "{{ pip_install_options_fact }}"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  with_items: rally_requires_pip_packages
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Get local venv checksum
+  stat:
+    path: "/var/cache/{{ rally_venv_download_url | basename }}"
+    get_md5: False
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+  register: local_venv_stat
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Get remote venv checksum
+  uri:
+    url: "{{ rally_venv_download_url | replace('tgz', 'checksum') }}"
+    return_content: True
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+  register: remote_venv_checksum
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+# TODO: When project moves to ansible 2 we can pass this a sha256sum which will:
+#       a) allow us to remove force: yes
+#       b) allow the module to calculate the checksum of dest file which would
+#          result in file being downloaded only if provided and dest sha256sum
+#          checksums differ
+- name: Attempt venv download
+  get_url:
+    url: "{{ rally_venv_download_url }}"
+    dest: "/var/cache/{{ rally_venv_download_url | basename }}"
+    force: yes
+  ignore_errors: true
+  register: get_venv
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+    - (local_venv_stat.stat.exists == False or
+        {{ local_venv_stat.stat.checksum is defined and local_venv_stat.stat.checksum != remote_venv_checksum.content | trim }})
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Set rally get_venv fact
+  set_fact:
+    rally_get_venv: "{{ get_venv }}"
+  when: rally_venv_enabled | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Remove existing venv
+  file:
+    path: "{{ rally_venv_bin | dirname }}"
+    state: absent
+  when:
+    - rally_venv_enabled | bool
+    - rally_get_venv | changed
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Create rally venv dir
+  file:
+    path: "{{ rally_venv_bin | dirname }}"
+    state: directory
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+    - rally_get_venv | changed
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Unarchive pre-built venv
+  unarchive:
+    src: "/var/cache/{{ rally_venv_download_url | basename }}"
+    dest: "{{ rally_venv_bin | dirname }}"
+    copy: "no"
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+    - rally_get_venv | changed
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Update virtualenv path
+  command: >
+    virtualenv-tools --update-path=auto {{ rally_venv_bin | dirname }}
+  when:
+    - not rally_developer_mode | bool
+    - rally_venv_enabled | bool
+    - rally_get_venv | success
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Install pip packages (venv)
+  pip:
+    name: "{{ item }}"
+    state: present
+    virtualenv: "{{ rally_venv_bin | dirname }}"
+    virtualenv_site_packages: "no"
+    extra_args: "{{ pip_install_options_fact }}"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  with_items: rally_pip_packages
+  when:
+    - rally_venv_enabled | bool
+    - rally_get_venv | failed or rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages
+
+- name: Install pip packages (no venv)
+  pip:
+    name: "{{ item }}"
+    state: present
+    extra_args: "{{ pip_install_options_fact }}"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  with_items: rally_pip_packages
+  when:
+    - not rally_venv_enabled | bool
+    - not rally_developer_mode | bool
+  tags:
+    - rally-install
+    - rally-pip-packages

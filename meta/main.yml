@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Comcast Corporation
+  description: Install and configure OpenStack Rally
+  company: Comcast Corportation
+  license: Apache2
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  galaxy_tags: []
+dependencies:
+  - apt_package_pinning
+  - galera_client
+  - pip_install
+  - pip_lock_down

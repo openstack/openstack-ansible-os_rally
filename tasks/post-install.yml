@@ -13,3 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Drop Rally config
+  config_template:
+    src: "rally.conf.j2"
+    dest: "{{ rally_etc_directory }}/rally.conf"
+    owner: "{{ rally_system_user_name }}"
+    group: "{{ rally_system_group_name }}"
+    mode: "0644"
+    config_overrides: "{{ rally_config_overrides }}"
+    config_type: "ini"

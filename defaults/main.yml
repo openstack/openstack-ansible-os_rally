@@ -67,4 +67,7 @@ rally_requires_pip_packages:
 
 rally_pip_packages:
   - setuptools
+  - pymysql
   - rally
+
+rally_config_overrides: {}

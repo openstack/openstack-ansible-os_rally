@@ -20,13 +20,32 @@ rally_system_user_shell: /bin/false
 rally_system_user_home: "/var/lib/{{ rally_system_user_name }}"
 rally_etc_directory: /etc/rally
 
-rally_git_repo: "https://git.openstack.org/openstack/rally"
-rally_git_install_branch: c09af59f0f06db9e74a334aaee4c493119384ea7 # master
-rally_git_dest: "/opt/rally_{{ rally_git_install_branch |replace('/', '_') }}"
+rally_git_repo: https://git.openstack.org/openstack/rally
+rally_git_install_branch: master
+rally_requirements_git_repo: https://git.openstack.org/openstack/requirements
+rally_requirements_git_install_branch: master
+rally_developer_mode: false
+rally_developer_constraints:
+  - "git+{{ rally_git_repo }}@{{ rally_git_install_branch }}#egg=rally"
+
+
+# Name of the virtual env to deploy into
+rally_venv_tag: untagged
+rally_venv_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
+
+# Set this to enable or disable installing in a venv
+rally_venv_enabled: true
+
+# The bin path defaults to the venv path however if installation in a
+# venv is disabled the bin path will be dynamically set based on the
+# system path used when the installing.
+rally_bin: "{{ rally_venv_bin }}"
+
+rally_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/rally.tgz
 
 # Database vars
 rally_galera_database_name: rally_service
-rally_galera_user: magnum
+rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database_name }}?charset=utf8
 
 rally_apt_packages:
@@ -40,6 +59,11 @@ rally_apt_packages:
   - git
   - wget
   - pymysql
+
+# Packages that must be installed before anything else
+rally_requires_pip_packages:
+  - virtualenv
+  - virtualenv-tools
 
 rally_pip_packages:
   - setuptools

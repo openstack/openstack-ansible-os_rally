@@ -1,0 +1,56 @@
+---
+# Copyright 2016, Comcast Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Deploy Rally
+  hosts: rally_all
+  user: root
+  gather_facts: true
+  pre_tasks:
+    - name: Create DB for service
+      mysql_db:
+        login_user: "root"
+        login_password: "secrete"
+        login_host: "localhost"
+        name: "{{ rally_galera_database }}"
+        state: "present"
+      delegate_to: "10.100.100.2"
+      when: inventory_hostname == groups['rally_all'][0]
+    - name: Grant access to the DB for the service
+      mysql_user:
+        login_user: "root"
+        login_password: "secrete"
+        login_host: "localhost"
+        name: "{{ rally_galera_database }}"
+        password: "{{ rally_galera_password }}"
+        host: "{{ item }}"
+        state: "present"
+        priv: "{{ rally_galera_database }}.*:ALL"
+      with_items:
+        - "localhost"
+        - "%"
+      delegate_to: "10.100.100.2"
+      when: inventory_hostname == groups['rally_all'][0]
+  roles:
+    - role: "{{ rolename | basename }}"
+  # post_tasks:
+  #   - include: test-rally-functional.yml
+  vars:
+    rally_galera_address: 10.100.100.2
+    rally_galera_database: rally
+    rally_galera_password: "SuperSecrete"
+    galera_client_drop_config_file: false
+    galera_root_password: "secrete"
+    rally_venv_tag: "testing"
+    rally_developer_mode: true

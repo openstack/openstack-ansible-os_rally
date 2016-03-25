@@ -44,9 +44,9 @@ rally_bin: "{{ rally_venv_bin }}"
 rally_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/rally.tgz
 
 # Database vars
-rally_galera_database_name: rally_service
+rally_galera_database: rally
 rally_galera_user: rally
-rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database_name }}?charset=utf8
+rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8
 
 rally_apt_packages:
   - build-essential

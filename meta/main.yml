@@ -13,4 +13,6 @@ dependencies:
   - apt_package_pinning
   - galera_client
   - pip_install
-  - pip_lock_down
+  - role: pip_lock_down
+    when:
+      - not rally_developer_mode | bool

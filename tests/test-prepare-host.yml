@@ -91,5 +91,5 @@
         physical_host: localhost
         container_name: "{{ item.name }}"
       with_items:
-        - { name: "infra1", service: "infra1", address: "10.100.100.2", groups: "all,all_containers,galera_all" }
+        - { name: "infra1", service: "infra1", address: "10.100.100.2", groups: "all,all_containers,rabbitmq_all,galera_all,keystone_all" }
         - { name: "openstack1", service: "openstack1", address: "10.100.100.3", groups: "all,all_containers,rally_all" }

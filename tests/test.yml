@@ -25,5 +25,8 @@
 # Install RabbitMQ/MariaDB
 - include: test-install-infra.yml
 
+# Install Keystone
+- include: test-install-keystone.yml
+
 # Install Rally
 - include: test-install-rally.yml

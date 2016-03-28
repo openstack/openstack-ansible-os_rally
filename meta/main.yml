@@ -13,6 +13,7 @@ dependencies:
   - apt_package_pinning
   - galera_client
   - pip_install
+  - openstack_openrc
   - role: pip_lock_down
     when:
       - not rally_developer_mode | bool

@@ -13,5 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Check for db
+  command: "{{ rally_bin }}/rally deployment list"
+  ignore_errors: true
+  register: rally_deployment_list_result
+
 - name: Create/upgrade Rally DB schema
-  command: "{{ rally_bin }}/rally-manage db upgrade"
+  command: "{{ rally_bin }}/rally-manage db create"
+  when:
+    - rally_deployment_list_result.stderr | search("Table 'rally.deployments' doesn't exist")

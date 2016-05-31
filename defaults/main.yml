@@ -48,18 +48,6 @@ rally_galera_database: rally
 rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8
 
-rally_apt_packages:
-  - build-essential
-  - libssl-dev
-  - libffi-dev
-  - python-dev
-  - libxml2-dev
-  - libxslt1-dev
-  - libpq-dev
-  - git
-  - wget
-  - pymysql
-
 # Packages that must be installed before anything else
 rally_requires_pip_packages:
   - virtualenv

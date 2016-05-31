@@ -12,3 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+cache_timeout: 600
+
+rally_apt_packages:
+  - build-essential
+  - libssl-dev
+  - libffi-dev
+  - python-dev
+  - libxml2-dev
+  - libxslt1-dev
+  - libpq-dev
+  - git
+  - wget

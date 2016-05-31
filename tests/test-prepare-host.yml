@@ -39,10 +39,14 @@
       shell: 'awk "/^deb .*ubuntu\/? {{ ansible_distribution_release }} main/ {print \$2; exit}" /etc/apt/sources.list'
       register: ubuntu_repo
       changed_when: false
+      when:
+        - ansible_pkg_mgr == 'apt'
     - name: Set apt repo facts based on discovered information
       set_fact:
         lxc_container_template_main_apt_repo: "{{ ubuntu_repo.stdout }}"
         lxc_container_template_security_apt_rep: "{{ ubuntu_repo.stdout }}"
+      when:
+        - ansible_pkg_mgr == 'apt'
   roles:
     - role: "lxc_hosts"
       lxc_net_address: 10.100.100.1

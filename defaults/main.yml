@@ -31,15 +31,7 @@ rally_developer_constraints:
 
 # Name of the virtual env to deploy into
 rally_venv_tag: untagged
-rally_venv_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
-
-# Set this to enable or disable installing in a venv
-rally_venv_enabled: true
-
-# The bin path defaults to the venv path however if installation in a
-# venv is disabled the bin path will be dynamically set based on the
-# system path used when the installing.
-rally_bin: "{{ rally_venv_bin }}"
+rally_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
 
 rally_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/rally.tgz
 

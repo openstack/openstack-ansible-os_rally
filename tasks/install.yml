@@ -65,14 +65,13 @@
 
 - name: Install requires pip packages
   pip:
-    name: "{{ item }}"
+    name: "{{ rally_requires_pip_packages | join(' ') }}"
     state: latest
     extra_args: "{{ pip_install_options_fact }}"
   register: install_packages
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: rally_requires_pip_packages
   tags:
     - rally-install
     - rally-pip-packages
@@ -159,7 +158,7 @@
 
 - name: Install pip packages
   pip:
-    name: "{{ item }}"
+    name: "{{ rally_pip_packages | join(' ') }}"
     state: latest
     virtualenv: "{{ rally_bin | dirname }}"
     virtualenv_site_packages: "no"
@@ -168,7 +167,6 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: rally_pip_packages
   when:
     - rally_get_venv | failed or rally_developer_mode | bool
   tags:

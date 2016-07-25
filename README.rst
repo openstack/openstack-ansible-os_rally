@@ -28,3 +28,4 @@ Example Playbook
      user: root
      roles:
        - role: "os_rally"
+

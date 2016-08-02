@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Set the package install state for distribution packages
+# Options are 'present' and 'latest'
+rally_package_state: "latest"
+
 rally_system_group_name: rally
 rally_system_user_name: rally
 rally_system_user_comment: Rally System User

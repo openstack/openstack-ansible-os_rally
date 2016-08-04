@@ -54,4 +54,10 @@ rally_pip_packages:
   - pymysql
   - rally
 
+# This variable is used by the repo_build process to determine
+# which host group to check for members of before building the
+# pip packages required by this role. The value is picked up
+# by the py_pkgs lookup.
+rally_role_project_group: rally_all
+
 rally_config_overrides: {}

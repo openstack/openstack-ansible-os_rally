@@ -13,51 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-internal_lb_vip_address: 10.100.100.2
-external_lb_vip_address: 10.100.100.2
-
-galera_client_drop_config_file: False
-galera_root_password: "secrete"
-galera_root_user: "root"
-
-keystone_galera_address: "{{ internal_lb_vip_address }}"
-keystone_galera_database: keystone
-keystone_venv_tag: "testing"
-keystone_developer_mode: True
-keystone_git_install_branch: master
-keystone_requirements_git_install_branch: master
-keystone_admin_user_name: admin
-keystone_admin_tenant_name: admin
-keystone_auth_admin_token: "SuperSecreteTestToken"
-keystone_auth_admin_password: "SuperSecretePassword"
-keystone_service_password: "secrete"
-keystone_rabbitmq_password: "secrete"
-keystone_container_mysql_password: "SuperSecrete"
-keystone_service_adminuri_insecure: False
-keystone_service_internaluri_insecure: False
-keystone_service_internaluri: "http://{{ internal_lb_vip_address }}:5000"
-keystone_service_internalurl: "{{ keystone_service_internaluri }}/v3"
-keystone_service_adminuri: "http://{{ internal_lb_vip_address }}:35357"
-keystone_service_adminurl: "{{ keystone_service_adminuri }}/v3"
-keystone_service_region: RegionOne
-keystone_rabbitmq_port: 5672
-keystone_rabbitmq_userid: keystone
-keystone_rabbitmq_vhost: /keystone
-keystone_rabbitmq_servers: "{{ internal_lb_vip_address }}"
-keystone_rabbitmq_use_ssl: False
-
-rabbitmq_servers: "{{ internal_lb_vip_address }}"
-rabbitmq_use_ssl: False
-rabbitmq_port: 5672
-
-memcached_servers: 127.0.0.1
-memcached_encryption_key: "secrete"
-
-openrc_os_password: "{{ keystone_auth_admin_password }}"
-openrc_os_domain_name: "Default"
-openrc_os_auth_url: "http://{{ hostvars[groups['keystone_all'][0]]['ansible_ssh_host'] }}:5000/v3"
-
-rally_galera_address: "{{ internal_lb_vip_address }}"
+rally_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_ssh_host'] }}"
 rally_galera_database: rally
 rally_galera_password: "SuperSecrete"
 rally_venv_tag: "testing"

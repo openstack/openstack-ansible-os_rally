@@ -27,4 +27,5 @@
         . {{ rally_bin }}/activate
         {{ rally_bin }}/rally task start /var/tmp/scenario.json
   vars_files:
+    - playbooks/test-vars.yml
     - test-vars.yml

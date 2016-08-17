@@ -23,11 +23,20 @@
     - always
 
 - include: pre-install.yml
+  tags:
+    - rally-install
 
 - include: install.yml
+  tags:
+    - rally-install
 
 - include: post-install.yml
+  tags:
+    - rally-install
+    - rally-config
 
 - include: database-setup.yml
   when:
     - inventory_hostname == groups[rally_host_group][0]
+  tags:
+    - rally-install

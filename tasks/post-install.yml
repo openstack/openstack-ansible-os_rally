@@ -22,15 +22,11 @@
     mode: "0644"
     config_overrides: "{{ rally_config_overrides }}"
     config_type: "ini"
-  tags:
-    - rally-config
 
 - name: Check for existing Rally deployment
   command: "{{ rally_bin }}/rally deployment list"
   ignore_errors: true
   register: rally_deployment_list_result
-  tags:
-    - rally-deployment-setup
 
 - name: Setup the Rally deployment
   shell: |
@@ -38,5 +34,3 @@
     {{ rally_bin }}/rally deployment create --fromenv --name=existing
   when:
     - rally_deployment_list_result.stdout | search("There are no deployments")
-  tags:
-    - rally-deployment-setup

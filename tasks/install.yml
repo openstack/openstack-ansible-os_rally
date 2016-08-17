@@ -16,8 +16,6 @@
 - include: install-apt.yml
   when:
     - ansible_pkg_mgr == 'apt'
-  tags:
-    - install-apt
 
 - name: Create developer mode constraint file
   copy:
@@ -28,9 +26,6 @@
       {% endfor %}
   when:
     - rally_developer_mode | bool
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Clone requirements git repository
   git:
@@ -41,27 +36,18 @@
     version: "{{ rally_requirements_git_install_branch }}"
   when:
     - rally_developer_mode | bool
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Add constraints to pip_install_options fact for developer mode
   set_fact:
     pip_install_options_fact: "{{ pip_install_options|default('') }} --constraint /opt/developer-pip-constraints.txt --constraint /opt/requirements/upper-constraints.txt"
   when:
     - rally_developer_mode | bool
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Set pip_install_options_fact when not in developer mode
   set_fact:
     pip_install_options_fact: "{{ pip_install_options|default('') }}"
   when:
     - not rally_developer_mode | bool
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Install requires pip packages
   pip:
@@ -72,9 +58,6 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Get local venv checksum
   stat:
@@ -83,9 +66,6 @@
   when:
     - not rally_developer_mode | bool
   register: local_venv_stat
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Get remote venv checksum
   uri:
@@ -94,9 +74,6 @@
   when:
     - not rally_developer_mode | bool
   register: remote_venv_checksum
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 # TODO: When project moves to ansible 2 we can pass this a sha256sum which will:
 #       a) allow us to remove force: yes
@@ -114,16 +91,10 @@
     - not rally_developer_mode | bool
     - (local_venv_stat.stat.exists == False or
         {{ local_venv_stat.stat.checksum is defined and local_venv_stat.stat.checksum != remote_venv_checksum.content | trim }})
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Set rally get_venv fact
   set_fact:
     rally_get_venv: "{{ get_venv }}"
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Remove existing venv
   file:
@@ -131,18 +102,12 @@
     state: absent
   when:
     - rally_get_venv | changed
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Create rally venv dir
   file:
     path: "{{ rally_bin | dirname }}"
     state: directory
   register: rally_venv_dir
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Unarchive pre-built venv
   unarchive:
@@ -152,9 +117,6 @@
   when:
     - not rally_developer_mode | bool
     - rally_get_venv | changed or rally_venv_dir | changed
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Install pip packages
   pip:
@@ -169,9 +131,6 @@
   delay: 2
   when:
     - rally_get_venv | failed or rally_developer_mode | bool
-  tags:
-    - rally-install
-    - rally-pip-packages
 
 - name: Update virtualenv path
   command: >
@@ -179,7 +138,4 @@
   when:
     - not rally_developer_mode | bool
     - rally_get_venv | success
-  tags:
-    - rally-install
-    - rally-pip-packages
 

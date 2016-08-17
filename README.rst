@@ -1,31 +1,11 @@
-OpenStack-Ansible Rally
-#######################
-:tags: openstack, rally, cloud, ansible
-:category: \*nix
+================================
+Rally role for OpenStack-Ansible
+================================
 
 This Ansible role installs and configures OpenStack Rally.
 
-Default Variables
-=================
+Documentation for the project can be found at:
+  http://docs.openstack.org/developer/openstack-ansible-os_rally/
 
-.. literalinclude:: ../../defaults/main.yml
-   :language: yaml
-   :start-after: under the License.
-
-Required Variables
-==================
-
- * rally_galera_address
- * rally_galera_password
-
-Example Playbook
-================
-
-.. code-block:: yaml
-
-   - name: Install Rally server
-     hosts: rally_all
-     user: root
-     roles:
-       - role: "os_rally"
-
+The project home is at:
+  http://launchpad.net/openstack-ansible

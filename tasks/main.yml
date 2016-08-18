@@ -30,4 +30,4 @@
 
 - include: database-setup.yml
   when:
-    - inventory_hostname == groups['rally_all'][0]
+    - inventory_hostname == groups[rally_host_group][0]

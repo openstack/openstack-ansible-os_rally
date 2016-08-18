@@ -58,6 +58,9 @@ rally_pip_packages:
 # which host group to check for members of before building the
 # pip packages required by this role. The value is picked up
 # by the py_pkgs lookup.
-rally_role_project_group: rally_all
+rally_role_project_group: utility_all
+
+# The inventory group where Rally will be installed
+rally_host_group: rally_all
 
 rally_config_overrides: {}

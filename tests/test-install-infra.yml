@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Deploy infra services
-  hosts: galera_all
+  hosts: service_all
   user: root
   gather_facts: true
   roles:

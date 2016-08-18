@@ -44,28 +44,5 @@
       when: inventory_hostname == groups['rally_all'][0]
   roles:
     - role: "{{ rolename | basename }}"
-  # post_tasks:
-  #   - include: test-rally-functional.yml
-  vars:
-    rally_galera_address: 10.100.100.2
-    rally_galera_database: rally
-    rally_galera_password: "SuperSecrete"
-    galera_client_drop_config_file: false
-    galera_root_password: "secrete"
-    rally_venv_tag: "testing"
-    rally_developer_mode: true
-    external_lb_vip_address: 10.100.100.2
-    internal_lb_vip_address: 10.100.100.2
-    keystone_admin_user_name: admin
-    keystone_admin_tenant_name: admin
-    keystone_auth_admin_password: SuperSecretePassword
-    keystone_service_adminuri_insecure: false
-    keystone_service_internaluri_insecure: false
-    keystone_service_internaluri: "http://{{ internal_lb_vip_address }}:5000"
-    keystone_service_internalurl: "{{ keystone_service_internaluri }}/v3"
-    keystone_service_adminuri: "http://{{ internal_lb_vip_address }}:35357"
-    keystone_service_adminurl: "{{ keystone_service_adminuri }}/v3"
-    keystone_service_region: RegionOne
-    openrc_os_auth_url: "{{ keystone_service_internalurl }}"
-    openrc_os_password: "{{ keystone_auth_admin_password }}"
-    openrc_os_domain_name: Default
+  vars_files:
+    - test-vars.yml

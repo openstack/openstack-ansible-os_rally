@@ -18,6 +18,11 @@
   connection: local
   become: yes
   pre_tasks:
+    # Make sure OS does not have a stale package cache.
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
     - name: Ensure root's new public ssh key is in authorized_keys
       authorized_key:
         user: root
@@ -41,28 +46,3 @@
       lxc_net_bridge: lxcbr0
       lxc_kernel_options:
         - { key: 'fs.inotify.max_user_instances', value: 1024 }
-  post_tasks:
-    # Inventory is being pre-loaded using a post tasks instead of through a dynamic
-    #  inventory system. While this is not a usual method for deployment it's being
-    #  done for functional testing.
-    - name: Create container hosts
-      add_host:
-        groups: "{{ item.groups }}"
-        hostname: "{{ item.name }}"
-        inventory_hostname: "{{ item.name }}"
-        ansible_ssh_host: "{{ item.address }}"
-        ansible_become: true
-        properties:
-          service_name: "{{ item.service }}"
-        container_networks:
-          management_address:
-            address: "{{ item.address }}"
-            bridge: "lxcbr0"
-            interface: "eth1"
-            netmask: "255.255.252.0"
-            type: "veth"
-        physical_host: localhost
-        container_name: "{{ item.name }}"
-      with_items:
-        - { name: "infra1", service: "infra1", address: "10.100.100.2", groups: "all,all_containers,rabbitmq_all,galera_all,keystone_all" }
-        - { name: "openstack1", service: "openstack1", address: "10.100.100.3", groups: "all,all_containers,rally_all" }

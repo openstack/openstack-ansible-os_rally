@@ -23,6 +23,6 @@
 - name: Create/upgrade Rally DB schema
   command: "{{ rally_bin }}/rally-manage db create"
   when:
-    - rally_deployment_list_result.stderr | search("Table 'rally.deployments' doesn't exist")
+    - rally_deployment_list_result.stdout | search("Table 'rally.deployments' doesn't exist")
   tags:
     - rally-db-setup

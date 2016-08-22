@@ -18,8 +18,6 @@
     name: "{{ rally_system_group_name }}"
     state: "present"
     system: "yes"
-  tags:
-    - rally-group
 
 - name: Create the Rally system user
   user:
@@ -30,8 +28,6 @@
     system: "yes"
     createhome: "yes"
     home: "{{ rally_system_user_home }}"
-  tags:
-    - rally-user
 
 - name: Create Rally directories
   file:
@@ -43,5 +39,3 @@
   with_items:
     - path: "{{ rally_etc_directory }}"
     - path: "{{ rally_system_user_home }}"
-  tags:
-    - rally-directories

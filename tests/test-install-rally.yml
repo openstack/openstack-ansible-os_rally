@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Deploy Rally
-  hosts: rally_all
+  hosts: utility_all
   user: root
   gather_facts: true
   pre_tasks:
@@ -26,7 +26,7 @@
         name: "{{ rally_galera_database }}"
         state: "present"
       delegate_to: "10.100.100.2"
-      when: inventory_hostname == groups['rally_all'][0]
+      when: inventory_hostname == groups['utility_all'][0]
     - name: Grant access to the DB for the service
       mysql_user:
         login_user: "root"
@@ -41,7 +41,7 @@
         - "localhost"
         - "%"
       delegate_to: "10.100.100.2"
-      when: inventory_hostname == groups['rally_all'][0]
+      when: inventory_hostname == groups['utility_all'][0]
   roles:
     - role: "{{ rolename | basename }}"
   vars_files:

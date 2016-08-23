@@ -14,15 +14,10 @@
 # limitations under the License.
 
 - name: Run a Rally scenario to ensure proper install/config
-  hosts: rally_all
+  hosts: utility_all
   user: root
   gather_facts: false
   tasks:
-    - name: Create the deployment
-      shell: |
-        . /root/openrc
-        . {{ rally_bin }}/activate
-        {{ rally_bin }}/rally deployment create --fromenv --name=existing
     - name: Copy the rally scenario
       copy:
         src: "{{ playbook_dir }}/files/scenario.json"

@@ -22,3 +22,16 @@
   command: "{{ rally_bin }}/rally-manage db create"
   when:
     - rally_deployment_list_result.stdout | search("Table 'rally.deployments' doesn't exist")
+
+- name: Check for existing Rally deployment
+  command: "{{ rally_bin }}/rally deployment list"
+  ignore_errors: true
+  register: rally_deployment_list_result
+
+- name: Setup the Rally deployment
+  shell: |
+    . /root/openrc
+    . {{ rally_bin }}/activate
+    {{ rally_bin }}/rally deployment create --fromenv --name=existing
+  when:
+    - rally_deployment_list_result.stdout | search("There are no deployments")

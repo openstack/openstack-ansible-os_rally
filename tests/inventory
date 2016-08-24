@@ -20,5 +20,5 @@ galera_all
 [keystone_all]
 infra1
 
-[rally_all]
+[utility_all]
 openstack1

@@ -15,7 +15,7 @@
 
 cache_timeout: 600
 
-rally_apt_packages:
+rally_distro_packages:
   - build-essential
   - libssl-dev
   - libffi-dev

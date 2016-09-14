@@ -17,9 +17,6 @@
 # Setup the host
 - include: playbooks/test-setup-host.yml
 
-# Prepare the containers
-- include: playbooks/test-prepare-containers.yml
-
 # Install RabbitMQ/MariaDB
 - include: playbooks/test-install-infra.yml
 

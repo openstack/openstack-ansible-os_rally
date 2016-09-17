@@ -29,6 +29,7 @@ doc/build/
 *.log
 *.sql
 *.sqlite
+logs/*
 
 # OS generated files #
 ######################
@@ -64,5 +65,7 @@ tests/plugins
 tests/playbooks
 tests/test.retry
 
-# Vagrant testing artifacts
+# Vagrant artifacts
 .vagrant
+
+

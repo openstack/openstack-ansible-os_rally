@@ -43,7 +43,7 @@
       delegate_to: "10.100.100.2"
       when: inventory_hostname == groups['utility_all'][0]
   roles:
-    - role: "{{ rolename | basename }}"
+    - role: "os_rally"
   vars_files:
-    - playbooks/test-vars.yml
+    - common/test-vars.yml
     - test-vars.yml

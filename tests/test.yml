@@ -15,13 +15,13 @@
 
 # Prepare the user ssh keys
 # Setup the host
-- include: playbooks/test-setup-host.yml
+- include: common/test-setup-host.yml
 
 # Install RabbitMQ/MariaDB
-- include: playbooks/test-install-infra.yml
+- include: common/test-install-infra.yml
 
 # Install Keystone
-- include: playbooks/test-install-keystone.yml
+- include: common/test-install-keystone.yml
 
 # Install Rally
 - include: test-install-rally.yml

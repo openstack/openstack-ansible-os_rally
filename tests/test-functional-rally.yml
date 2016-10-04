@@ -28,4 +28,3 @@
         {{ rally_bin }}/rally task start /var/tmp/scenario.json
   vars_files:
     - common/test-vars.yml
-    - test-vars.yml

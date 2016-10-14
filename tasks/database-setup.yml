@@ -15,7 +15,7 @@
 
 - name: Check for db
   command: "{{ rally_bin }}/rally deployment list"
-  ignore_errors: true
+  failed_when: false
   register: rally_deployment_list_result
 
 - name: Create/upgrade Rally DB schema
@@ -25,7 +25,7 @@
 
 - name: Check for existing Rally deployment
   command: "{{ rally_bin }}/rally deployment list"
-  ignore_errors: true
+  failed_when: false
   register: rally_deployment_list_result
 
 - name: Setup the Rally deployment

@@ -15,6 +15,7 @@
 
 - name: Check for db
   command: "{{ rally_bin }}/rally deployment list"
+  changed_when: false
   failed_when: false
   register: rally_deployment_list_result
 
@@ -25,6 +26,7 @@
 
 - name: Check for existing Rally deployment
   command: "{{ rally_bin }}/rally deployment list"
+  changed_when: false
   failed_when: false
   register: rally_deployment_list_result
 
@@ -35,3 +37,6 @@
     {{ rally_bin }}/rally deployment create --fromenv --name=existing
   when:
     - rally_deployment_list_result.stdout | search("There are no deployments")
+  tags:
+    # don't trigger ANSIBLE0013
+    - skip_ansible_lint

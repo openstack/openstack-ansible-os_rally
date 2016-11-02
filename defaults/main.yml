@@ -27,8 +27,6 @@ rally_etc_directory: /etc/rally
 
 rally_git_repo: https://git.openstack.org/openstack/rally
 rally_git_install_branch: master
-rally_requirements_git_repo: https://git.openstack.org/openstack/requirements
-rally_requirements_git_install_branch: master
 rally_developer_mode: false
 rally_developer_constraints:
   - "git+{{ rally_git_repo }}@{{ rally_git_install_branch }}#egg=rally"

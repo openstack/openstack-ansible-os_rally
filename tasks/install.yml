@@ -85,7 +85,7 @@
 
 - name: Update virtualenv path
   command: >
-    virtualenv-tools --update-path=auto {{ rally_bin | dirname }}
+    virtualenv-tools --update-path=auto --reinitialize {{ rally_bin | dirname }}
   when:
     - not rally_developer_mode | bool
     - rally_get_venv | changed or rally_venv_dir | changed

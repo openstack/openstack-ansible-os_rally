@@ -22,20 +22,20 @@
   tags:
     - always
 
-- include: pre-install.yml
+- include: rally_pre_install.yml
   tags:
     - rally-install
 
-- include: install.yml
+- include: rally_install.yml
   tags:
     - rally-install
 
-- include: post-install.yml
+- include: rally_post_install.yml
   tags:
     - rally-install
     - rally-config
 
-- include: database-setup.yml
+- include: rally_db_setup.yml
   when: inventory_hostname == groups[rally_role_project_group][0]
   tags:
     - rally-install

@@ -4,6 +4,9 @@ Rally role for OpenStack-Ansible
 
 This Ansible role installs and configures OpenStack Rally.
 
+To clone or view the source code for this repository, visit the role repository
+for `os_rally <https://github.com/openstack/openstack-ansible-os_rally>`_.
+
 Default variables
 ~~~~~~~~~~~~~~~~~
 

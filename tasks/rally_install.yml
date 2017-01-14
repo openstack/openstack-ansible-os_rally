@@ -44,7 +44,7 @@
     dest: "/var/cache/{{ rally_venv_download_url | basename }}"
     checksum: "sha1:{{ lookup('url', rally_venv_download_url | replace('tgz', 'checksum')) }}"
   register: rally_get_venv
-  when: not rally_developer_mode | bool
+  when: rally_venv_download | bool
 
 - name: Remove existing venv
   file:
@@ -56,16 +56,14 @@
   file:
     path: "{{ rally_bin | dirname }}"
     state: directory
-  register: rally_venv_dir
+  when: rally_get_venv | changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ rally_venv_download_url | basename }}"
     dest: "{{ rally_bin | dirname }}"
     copy: "no"
-  when:
-    - not rally_developer_mode | bool
-    - rally_get_venv | changed or rally_venv_dir | changed
+  when: rally_get_venv | changed
 
 - name: Install pip packages
   pip:
@@ -81,7 +79,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  when: rally_developer_mode | bool
+  when: rally_get_venv | failed or rally_get_venv | skipped
 
 - name: CentOS remove python from path first
   file:
@@ -89,12 +87,9 @@
     state: "absent"
   when:
     - ansible_pkg_mgr == 'yum'
-    - not rally_developer_mode | bool
-    - rally_get_venv | changed or rally_venv_dir | changed
+    - rally_get_venv | changed
 
 - name: Update virtualenv path
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ rally_bin | dirname }}
-  when:
-    - not rally_developer_mode | bool
-    - rally_get_venv | changed or rally_venv_dir | changed
+  when: rally_get_venv | changed

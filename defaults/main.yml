@@ -36,6 +36,9 @@ rally_developer_constraints:
 rally_venv_tag: untagged
 rally_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
 
+# venv_download, even when true, will use the fallback method of building the
+# venv from scratch if the venv download fails.
+rally_venv_download: "{{ not rally_developer_mode | bool }}"
 rally_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/rally.tgz
 
 # Database vars

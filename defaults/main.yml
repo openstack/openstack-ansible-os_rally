@@ -25,7 +25,7 @@ rally_system_user_home: "/var/lib/{{ rally_system_user_name }}"
 rally_etc_directory: /etc/rally
 
 rally_git_repo: https://git.openstack.org/openstack/rally
-rally_git_install_branch: master
+rally_git_install_branch: "0.9-eol"
 rally_developer_mode: false
 rally_developer_constraints:
   - "git+{{ rally_git_repo }}@{{ rally_git_install_branch }}#egg=rally"

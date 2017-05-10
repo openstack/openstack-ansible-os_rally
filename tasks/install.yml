@@ -38,11 +38,18 @@
   retries: 5
   delay: 2
 
+- name: Retrieve checksum for venv download
+  uri:
+    url: "{{ rally_venv_download_url | replace('tgz', 'checksum') }}"
+    return_content: yes
+  register: rally_venv_checksum
+  when: not rally_developer_mode | bool
+
 - name: Attempt venv download
   get_url:
     url: "{{ rally_venv_download_url }}"
     dest: "/var/cache/{{ rally_venv_download_url | basename }}"
-    checksum: "sha1:{{ lookup('url', rally_venv_download_url | replace('tgz', 'checksum')) }}"
+    checksum: "sha1:{{ rally_venv_checksum.content | trim }}"
   register: rally_get_venv
   when: not rally_developer_mode | bool
 

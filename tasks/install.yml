@@ -89,3 +89,10 @@
   when:
     - not rally_developer_mode | bool
     - rally_get_venv | changed or rally_venv_dir | changed
+
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: rally
+    option: venv_tag
+    value: "{{ rally_venv_tag }}"

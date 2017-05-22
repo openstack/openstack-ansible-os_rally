@@ -107,3 +107,10 @@
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ rally_bin | dirname }}
   when: rally_get_venv | changed
+
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: rally
+    option: venv_tag
+    value: "{{ rally_venv_tag }}"

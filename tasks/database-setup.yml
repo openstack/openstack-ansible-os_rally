@@ -20,8 +20,8 @@
 
 - name: Create/upgrade Rally DB schema
   command: "{{ rally_bin }}/rally-manage db create"
-  when:
-    - rally_deployment_list_result.stdout | search("Database is missing")
+  when: (rally_deployment_list_result.stdout | search("Database is missing")) or
+        (rally_deployment_list_result.stdout | search("Table 'rally.deployments' doesn't exist"))
 
 - name: Check for existing Rally deployment
   command: "{{ rally_bin }}/rally deployment list"

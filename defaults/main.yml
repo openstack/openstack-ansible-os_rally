@@ -55,6 +55,7 @@ rally_pip_packages:
   - setuptools
   - pymysql
   - rally
+  - ansible==2.2.3.0
 
 # The inventory group where Rally will be installed.
 # This variable is used by the repo_build process to determine

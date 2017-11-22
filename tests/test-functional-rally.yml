@@ -26,6 +26,9 @@
       shell: |
         . {{ rally_bin }}/activate
         {{ rally_bin }}/rally task start /var/tmp/scenario.json
+      changed_when: true
+      tags:
+        - skip_ansible_lint
   vars_files:
     - common/test-vars.yml
     - test-vars.yml

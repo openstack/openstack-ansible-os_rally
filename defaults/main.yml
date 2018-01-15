@@ -49,7 +49,6 @@ rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ ral
 # Packages that must be installed before anything else
 rally_requires_pip_packages:
   - virtualenv
-  - virtualenv-tools
 
 rally_pip_packages:
   - setuptools

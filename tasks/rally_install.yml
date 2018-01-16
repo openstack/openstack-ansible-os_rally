@@ -105,9 +105,12 @@
     - rally_get_venv | changed
 
 - name: Update virtualenv path
-  command: >
-    virtualenv-tools --update-path=auto --reinitialize {{ rally_bin | dirname }}
+  shell: |
+    find {{ rally_bin }} -name \*.pyc -delete
+    sed -si '1s/^.*python.*$/#!{{ rally_bin | replace ('/','\/') }}\/python/' {{ rally_bin }}/*
   when: rally_get_venv | changed
+  tags:
+    - skip_ansible_lint
 
 - name: Record the venv tag deployed
   ini_file:

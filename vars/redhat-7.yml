@@ -1,4 +1,5 @@
-# Copyright 2017, Rackspace US, Inc.
+---
+# Copyright 2016, Comcast Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,17 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- project:
-    check:
-      jobs:
-        - openstack-ansible-linters
-        - openstack-ansible-functional-ubuntu-xenial
-        - openstack-ansible-functional-centos-7
-    experimental:
-      jobs:
-        - openstack-ansible-integrated-deploy-aio
-    gate:
-      jobs:
-        - openstack-ansible-linters
-        - openstack-ansible-functional-ubuntu-xenial
-        - openstack-ansible-functional-centos-7
+rally_distro_packages:
+  - openssl-devel
+  - libffi-devel
+  - python-devel
+  - libxml2-devel
+  - libxslt-devel
+  - postgresql-libs
+  - git
+  - wget

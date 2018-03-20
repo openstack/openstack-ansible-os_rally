@@ -20,8 +20,4 @@ rally_distro_packages:
   - libssl-dev
   - libffi-dev
   - python-dev
-  - libxml2-dev
-  - libxslt1-dev
-  - libpq-dev
   - git
-  - wget

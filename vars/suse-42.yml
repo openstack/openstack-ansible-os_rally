@@ -1,5 +1,5 @@
 ---
-# Copyright 2016, Comcast Corporation
+# Copyright 2018, SUSE Linux GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 
 rally_distro_packages:
-  - openssl-devel
+  - git-core
   - libffi-devel
+  - libopenssl-devel
   - python-devel
-  - git

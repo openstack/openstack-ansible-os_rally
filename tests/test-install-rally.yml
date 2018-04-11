@@ -27,6 +27,7 @@
         state: "present"
       delegate_to: "10.100.100.2"
       when: inventory_hostname == groups['utility_all'][0]
+      no_log: true
     - name: Grant access to the DB for the service
       mysql_user:
         login_user: "root"
@@ -42,6 +43,7 @@
         - "%"
       delegate_to: "10.100.100.2"
       when: inventory_hostname == groups['utility_all'][0]
+      no_log: true
   roles:
     - role: "os_rally"
   vars_files:

@@ -52,10 +52,11 @@ rally_requires_pip_packages:
   - virtualenv-tools
 
 rally_pip_packages:
-  - setuptools
+  - ansible==2.2.3.0
+  - cmd2<0.9.0 # >=0.9.0 is python3 only
   - pymysql
   - rally
-  - ansible==2.2.3.0
+  - setuptools
 
 # The inventory group where Rally will be installed.
 # This variable is used by the repo_build process to determine

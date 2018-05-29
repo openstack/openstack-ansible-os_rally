@@ -25,7 +25,11 @@ rally_system_user_shell: /bin/false
 rally_system_user_home: "/var/lib/{{ rally_system_user_name }}"
 rally_etc_directory: /etc/rally
 
-rally_git_repo: https://git.openstack.org/openstack/rally
+# We comment `rally_git_repo` so that the repo_build role does not attempt to
+# build the wheel from this repo/branch. Instead, we want rally to get built
+# from the stable release defined in rally_pip_packages further down in this
+# file.
+#rally_git_repo: https://git.openstack.org/openstack/rally
 rally_git_install_branch: "565947d453d93756ffd9c011d5ba93cdd6488754"
 rally_developer_mode: false
 rally_developer_constraints:
@@ -50,12 +54,17 @@ rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ ral
 rally_requires_pip_packages:
   - virtualenv
 
+# These pins are sourced from the rally git repository's
+# upper-constraints file. These should be updated whenever
+# the rally pin is updated. The package pins here are only
+# those not already covered by upper constraints.
 rally_pip_packages:
-  - ansible==2.3.2.0
-  - cmd2<0.9.0 # >=0.9.0 is python3 only
-  - pymysql
-  - rally
-  - setuptools
+  - ansible==2.4.3.0
+  - morph==0.1.2
+  - os-faults==0.1.17
+  - positional===1.2.1
+  - pymysql # not pinned as it is in u-c
+  - rally==0.11.2 # 0.11.x appears to be Queens-related releases
 
 # The inventory group where Rally will be installed.
 # This variable is used by the repo_build process to determine

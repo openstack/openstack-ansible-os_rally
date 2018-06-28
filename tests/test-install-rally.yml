@@ -17,33 +17,6 @@
   hosts: utility_all
   user: root
   gather_facts: true
-  pre_tasks:
-    - name: Create DB for service
-      mysql_db:
-        login_user: "root"
-        login_password: "secrete"
-        login_host: "localhost"
-        name: "{{ rally_galera_database }}"
-        state: "present"
-      delegate_to: "10.100.100.2"
-      when: inventory_hostname == groups['utility_all'][0]
-      no_log: true
-    - name: Grant access to the DB for the service
-      mysql_user:
-        login_user: "root"
-        login_password: "secrete"
-        login_host: "localhost"
-        name: "{{ rally_galera_database }}"
-        password: "{{ rally_galera_password }}"
-        host: "{{ item }}"
-        state: "present"
-        priv: "{{ rally_galera_database }}.*:ALL"
-      with_items:
-        - "localhost"
-        - "%"
-      delegate_to: "10.100.100.2"
-      when: inventory_hostname == groups['utility_all'][0]
-      no_log: true
   roles:
     - role: "os_rally"
   vars_files:

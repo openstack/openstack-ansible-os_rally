@@ -46,6 +46,8 @@ rally_venv_download: "{{ not rally_developer_mode | bool }}"
 rally_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/rally.tgz
 
 # Database vars
+rally_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+rally_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 rally_galera_database: rally
 rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8

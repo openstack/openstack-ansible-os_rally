@@ -13,8 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rally_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] }}"
-rally_galera_database: rally
 rally_galera_password: "SuperSecrete"
 rally_venv_tag: "testing"
 rally_venv_download: False

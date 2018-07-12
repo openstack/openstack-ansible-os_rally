@@ -20,7 +20,7 @@
     update_cache: "{{ (ansible_pkg_mgr == 'apt') | ternary('yes', omit) }}"
     cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(cache_timeout, omit) }}"
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
 
@@ -42,7 +42,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
 
@@ -65,20 +65,20 @@
   file:
     path: "{{ rally_bin | dirname }}"
     state: absent
-  when: rally_get_venv | changed
+  when: rally_get_venv  is changed
 
 - name: Create rally venv dir
   file:
     path: "{{ rally_bin | dirname }}"
     state: directory
-  when: rally_get_venv | changed
+  when: rally_get_venv  is changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ rally_venv_download_url | basename }}"
     dest: "{{ rally_bin | dirname }}"
     copy: "no"
-  when: rally_get_venv | changed
+  when: rally_get_venv  is changed
 
 - name: Install pip packages
   pip:
@@ -91,7 +91,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   when: rally_get_venv | failed or rally_get_venv | skipped
@@ -102,7 +102,7 @@
     state: "absent"
   when:
     - ansible_pkg_mgr == 'yum'
-    - rally_get_venv | changed
+    - rally_get_venv  is changed
 
 # NOTE(odyssey4me):
 # We reinitialize the venv to ensure that the right
@@ -120,7 +120,7 @@
         --no-pip \
         --no-setuptools \
         --no-wheel
-  when: rally_get_venv | changed
+  when: rally_get_venv  is changed
   tags:
     - skip_ansible_lint
 

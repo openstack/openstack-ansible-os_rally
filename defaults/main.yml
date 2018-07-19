@@ -66,7 +66,7 @@ rally_pip_packages:
   - os-faults==0.1.17
   - positional===1.2.1
   - pymysql # not pinned as it is in u-c
-  - rally==0.12.1 # current release at 29 May 2018
+  - rally-openstack==1.2.0
 
 # The inventory group where Rally will be installed.
 # This variable is used by the repo_build process to determine

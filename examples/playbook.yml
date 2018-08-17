@@ -1,3 +1,4 @@
+---
 - name: Install Rally server
   hosts: rally_all
   user: root

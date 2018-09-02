@@ -35,9 +35,19 @@ rally_developer_mode: false
 rally_developer_constraints:
   - "git+{{ rally_git_repo }}@{{ rally_git_install_branch }}#egg=rally"
 
+# TODO(odyssey4me):
+# This can be simplified once all the roles are using
+# python_venv_build. We can then switch to using a
+# set of constraints in pip.conf inside the venv,
+# perhaps prepared by giving a giving a list of
+# constraints to the role.
+rally_pip_install_args: >-
+  {{ rally_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+  {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''), '') }}
+  {{ pip_install_options | default('') }}
 
 # Name of the virtual env to deploy into
-rally_venv_tag: untagged
+rally_venv_tag: "{{ venv_tag | default('untagged') }}"
 rally_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
 
 # venv_download, even when true, will use the fallback method of building the

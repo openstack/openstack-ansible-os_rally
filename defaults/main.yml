@@ -30,7 +30,7 @@ rally_etc_directory: /etc/rally
 # from the stable release defined in rally_pip_packages further down in this
 # file.
 #rally_git_repo: https://git.openstack.org/openstack/rally
-rally_git_install_branch: master
+rally_git_install_branch: '1.1.0'
 rally_developer_mode: false
 rally_developer_constraints:
   - "git+{{ rally_git_repo }}@{{ rally_git_install_branch }}#egg=rally"

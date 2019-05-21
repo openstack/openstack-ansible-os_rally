@@ -27,6 +27,9 @@ galaxy_info:
       versions:
         - xenial
         - bionic
+    - name: opensuse
+      versions:
+        - 15
   galaxy_tags: []
 dependencies:
   - role: apt_package_pinning

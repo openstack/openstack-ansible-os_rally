@@ -25,6 +25,19 @@
   tags:
     - always
 
+- import_tasks: db_setup.yml
+  when: inventory_hostname == groups[rally_role_project_group][0]
+  vars:
+    _oslodb_setup_host: "{{ rally_db_setup_host }}"
+    _oslodb_databases:
+      - name: "{{ rally_galera_database }}"
+        users:
+          - username: "{{ rally_galera_user }}"
+            password: "{{ rally_galera_password }}"
+  tags:
+    - common-db
+    - rally-config
+
 - include_tasks: rally_pre_install.yml
   tags:
     - rally-install
@@ -51,4 +64,5 @@
 - include_tasks: rally_db_setup.yml
   when: inventory_hostname == groups[rally_role_project_group][0]
   tags:
+    - common-db
     - rally-config

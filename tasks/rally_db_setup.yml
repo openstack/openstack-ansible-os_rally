@@ -22,7 +22,7 @@
 - name: Create/upgrade Rally DB schema
   command: "{{ rally_bin }}/rally-manage db create"
   when:
-    - rally_deployment_list_result.stdout | search("Database is missing")
+    - rally_deployment_list_result.stdout is search("Database is missing")
 
 - name: Check for existing Rally deployment
   command: "{{ rally_bin }}/rally deployment list"
@@ -36,7 +36,7 @@
     . {{ rally_bin }}/activate
     {{ rally_bin }}/rally deployment create --fromenv --name=existing
   when:
-    - rally_deployment_list_result.stdout | search("There are no deployments")
+    - rally_deployment_list_result.stdout is search("There are no deployments")
   tags:
     # don't trigger ANSIBLE0013
     - skip_ansible_lint

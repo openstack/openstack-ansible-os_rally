@@ -46,6 +46,7 @@
   import_role:
     name: "python_venv_build"
   vars:
+    venv_build_constraints: "{{ rally_git_constraints }}"
     venv_install_destination_path: "{{ rally_bin | dirname }}"
     venv_install_distro_package_list: "{{ rally_distro_packages }}"
     venv_pip_install_args: "{{ rally_pip_install_args }}"

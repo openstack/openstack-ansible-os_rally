@@ -38,16 +38,14 @@ rally_galera_database: rally
 rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8
 
-# These pins are sourced from the rally git repository's
-# upper-constraints file. These should be updated whenever
-# the rally pin is updated. The package pins here are only
-# those not already covered by upper constraints.
+# NOTE(mnaser): This uses the Rally upper-constraints because it
+#               is branchless and maintains it's own constraints,
+#               outside of requirements.
+rally_upper_constraints_url: "https://opendev.org/openstack/rally-openstack/raw/branch/master/upper-constraints.txt"
+rally_git_constraints:
+  - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:
-  - adal==1.2.1
-  - os-faults==0.2.2
-  - pymysql # not pinned as it is in u-c
-  - rally==1.5.1
-  - rally-openstack==1.4.0
+  - rally-openstack
 
 # The inventory group where Rally will be installed.
 # This variable is used by the repo_build process to determine

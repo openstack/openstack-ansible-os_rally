@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#python venv executable
+rally_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
+
 # Set the package install state for distribution and pip packages
 # Options are 'present' and 'latest'
 rally_package_state: "latest"

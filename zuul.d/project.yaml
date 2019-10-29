@@ -31,4 +31,4 @@
         - openstack-ansible-deploy-aio_metal_rally-ubuntu-bionic
     experimental:
       jobs:
-        - openstack-ansible-deploy-aio_metal_rally-opensuse-150
+        - openstack-ansible-deploy-aio_metal_rally-opensuse-15

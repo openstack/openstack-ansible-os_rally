@@ -20,7 +20,7 @@
   register: rally_deployment_list_result
 
 - name: Create/upgrade Rally DB schema
-  command: "{{ rally_bin }}/rally-manage db create"
+  command: "{{ rally_bin }}/rally db create"
   when:
     - rally_deployment_list_result.stdout is search("Database is missing")
 

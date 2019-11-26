@@ -44,7 +44,7 @@ rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ ral
 # NOTE(mnaser): This uses the Rally upper-constraints because it
 #               is branchless and maintains it's own constraints,
 #               outside of requirements.
-rally_upper_constraints_url: "https://opendev.org/openstack/rally-openstack/raw/branch/master/upper-constraints.txt"
+rally_upper_constraints_url: "https://releases.openstack.org/constraints/upper/master"
 rally_git_constraints:
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:

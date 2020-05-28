@@ -15,9 +15,4 @@
 
 cache_timeout: 600
 
-rally_distro_packages:
-  - build-essential
-  - libssl-dev
-  - libffi-dev
-  - python-dev
-  - git
+rally_distro_packages: []

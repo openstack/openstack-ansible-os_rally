@@ -13,8 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rally_distro_packages:
-  - git-core
-  - libffi-devel
-  - libopenssl-devel
-  - python-devel
+rally_distro_packages: []

@@ -35,8 +35,10 @@ rally_venv_tag: "{{ venv_tag | default('untagged') }}"
 rally_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
 
 # Database vars
-rally_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+rally_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
+rally_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((rally_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable'])) }}"
 rally_galera_address: "{{ galera_address | default('127.0.0.1') }}"
+rally_galera_port: 3306
 rally_galera_database: rally
 rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8

@@ -51,10 +51,13 @@
   vars:
     venv_python_executable: "{{ rally_venv_python_executable }}"
     venv_build_constraints: "{{ rally_git_constraints }}"
+    venv_build_global_constraints: "{{ [] }}"
+    venv_build_distro_package_list: "{{ rally_devel_distro_packages }}"
     venv_install_destination_path: "{{ rally_bin | dirname }}"
     venv_install_distro_package_list: "{{ rally_distro_packages }}"
     venv_pip_install_args: "{{ rally_pip_install_args }}"
     venv_pip_packages: "{{ rally_pip_packages }}"
+    venv_wheel_build_enable: false
     venv_facts_when_changed:
       - section: "rally"
         option: "venv_tag"

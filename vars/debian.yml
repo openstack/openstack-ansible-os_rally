@@ -15,4 +15,7 @@
 
 cache_timeout: 600
 
+rally_devel_distro_packages:
+  - libpython3-dev
+
 rally_distro_packages: []

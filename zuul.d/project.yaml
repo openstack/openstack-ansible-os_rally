@@ -22,4 +22,4 @@
       # before enabling this job template:
       # - openstack-ansible-deploy-aio_distro_metal-jobs
       - publish-openstack-docs-pti
-      - release-notes-jobs-python3
+      - build-release-notes-jobs-python3

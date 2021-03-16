@@ -36,7 +36,7 @@ rally_bin: "/openstack/venvs/rally-{{ rally_venv_tag }}/bin"
 
 # Database vars
 rally_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
-rally_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((rally_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable'])) }}"
+rally_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((rally_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
 rally_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 rally_galera_port: 3306
 rally_galera_database: rally

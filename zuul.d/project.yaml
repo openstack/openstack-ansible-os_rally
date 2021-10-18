@@ -22,12 +22,10 @@
     check:
       jobs:
         - openstack-ansible-deploy-aio_metal_rally-centos-7
-        - openstack-ansible-deploy-aio_metal_rally-debian-stable
         - openstack-ansible-deploy-aio_metal_rally-ubuntu-bionic
     gate:
       jobs:
         - openstack-ansible-deploy-aio_metal_rally-centos-7
-        - openstack-ansible-deploy-aio_metal_rally-debian-stable
         - openstack-ansible-deploy-aio_metal_rally-ubuntu-bionic
     experimental:
       jobs:

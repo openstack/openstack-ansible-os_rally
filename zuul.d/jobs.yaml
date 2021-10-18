@@ -35,11 +35,3 @@
     vars:
       action: deploy
       scenario: aio_metal_rally
-
-- job:
-    name: openstack-ansible-deploy-aio_metal_rally-debian-stable
-    parent: openstack-ansible-deploy-aio
-    nodeset: debian-stable
-    vars:
-      action: deploy
-      scenario: aio_metal_rally

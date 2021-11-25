@@ -51,5 +51,6 @@ rally_git_constraints:
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:
   - rally-openstack
+  - PyMySQL
 
 rally_config_overrides: {}

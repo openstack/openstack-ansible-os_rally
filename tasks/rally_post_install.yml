@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Drop Rally config
-  config_template:
+  openstack.config_template.config_template:
     src: "rally.conf.j2"
     dest: "{{ rally_etc_directory }}/rally.conf"
     owner: "{{ rally_system_user_name }}"

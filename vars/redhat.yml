@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rally_devel_distro_packages:
-  - python36-devel
+rally_devel_distro_packages: []
 
 rally_distro_packages: []

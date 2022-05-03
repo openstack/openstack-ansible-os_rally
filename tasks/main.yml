@@ -45,12 +45,19 @@
   tags:
     - rally-install
 
+- name: Retrieve the constraints URL
+  uri:
+    url: "{{ rally_upper_constraints_url }}"
+    return_content: yes
+  register: _u_c_contents
+  check_mode: false
+
 - name: Install the python venv
   import_role:
     name: "python_venv_build"
   vars:
     venv_python_executable: "{{ rally_venv_python_executable }}"
-    venv_build_constraints: "{{ rally_git_constraints }}"
+    venv_build_constraints: "{{ _u_c_contents.content.split('\n') | reject('match', '^PyYAML=') | list }}"
     venv_build_global_constraints: "{{ [] }}"
     venv_build_distro_package_list: "{{ rally_devel_distro_packages }}"
     venv_install_destination_path: "{{ rally_bin | dirname }}"

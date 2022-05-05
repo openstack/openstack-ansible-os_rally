@@ -25,8 +25,13 @@
   tags:
     - always
 
-- import_tasks: db_setup.yml
-  when: inventory_hostname == groups['utility_all'][0]
+
+- include_role:
+    name: openstack.osa.db_setup
+    apply:
+      tags:
+        - common-db
+        - rally-config
   vars:
     _oslodb_setup_host: "{{ rally_db_setup_host }}"
     _oslodb_ansible_python_interpreter: "{{ rally_db_setup_python_interpreter }}"
@@ -38,8 +43,7 @@
           - username: "{{ rally_galera_user }}"
             password: "{{ rally_galera_password }}"
   tags:
-    - common-db
-    - rally-config
+    - always
 
 - include_tasks: rally_pre_install.yml
   tags:

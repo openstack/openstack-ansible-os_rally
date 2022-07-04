@@ -41,13 +41,16 @@ rally_galera_database: rally
 rally_galera_user: rally
 rally_database_connection_string: mysql+pymysql://{{ rally_galera_user }}:{{ rally_galera_password }}@{{ rally_galera_address }}/{{ rally_galera_database }}?charset=utf8
 
+rally_openstack_git_repo: https://opendev.org/openstack/rally-openstack
+rally_openstack_git_install_branch: master
 # NOTE(mnaser): This uses the Rally upper-constraints because it
 #               is branchless and maintains it's own constraints,
 #               outside of requirements.
-rally_upper_constraints_url: "https://releases.openstack.org/constraints/upper/master"
+rally_upper_constraints_url: "{{ rally_openstack_git_repo }}/raw/branch/master/upper-constraints.txt"
 rally_git_constraints:
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:
-  - rally-openstack
+  - "git+{{ rally_openstack_git_repo }}@{{ rally_openstack_git_install_branch }}#egg=rally-openstack"
+  - PyMySQL
 
 rally_config_overrides: {}

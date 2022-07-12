@@ -23,11 +23,3 @@
       # - openstack-ansible-deploy-aio_distro_metal-jobs
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-    check:
-      jobs:
-        - openstack-ansible-deploy-aio_metal-ubuntu-bionic:
-            voting: false
-    gate:
-      jobs:
-        - openstack-ansible-deploy-aio_metal-ubuntu-bionic:
-            voting: false

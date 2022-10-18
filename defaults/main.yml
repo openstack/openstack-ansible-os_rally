@@ -48,9 +48,10 @@ rally_openstack_git_install_branch: master
 #               outside of requirements.
 rally_upper_constraints_url: "{{ rally_openstack_git_repo }}/raw/branch/master/upper-constraints.txt"
 rally_git_constraints:
+  - "git+{{ rally_openstack_git_repo }}@{{ rally_openstack_git_install_branch }}#egg=rally-openstack"
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:
-  - "git+{{ rally_openstack_git_repo }}@{{ rally_openstack_git_install_branch }}#egg=rally-openstack"
+  - rally-openstack
   - PyMySQL
 
 rally_config_overrides: {}

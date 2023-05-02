@@ -52,15 +52,34 @@
   uri:
     url: "{{ rally_upper_constraints_url }}"
     return_content: yes
-  register: _u_c_contents
+  register: _u_c_contents_uri
   check_mode: false
+  when: rally_openstack_git_repo is search('http')
+
+- name: Retrieve local filesystem upper constraints in CI
+  command:
+     git --git-dir={{ rally_openstack_git_repo.split('file://')[1] }}/.git show {{ rally_openstack_git_install_branch | default('master') }}:upper-constraints.txt
+  when: rally_openstack_git_repo is search('file://')
+  register: _u_c_contents_git
+  delegate_to: localhost
+  tags:
+    - skip_ansible_lint
+
+- name: Set the constraints content
+  set_fact:
+    _u_c_contents: |-
+      {% if _u_c_contents_uri is not skipped %}
+      {{ _u_c_contents_uri.content }}
+      {% elif _u_c_contents_git is not skipped %}
+      {{ _u_c_contents_git.stdout }}
+      {% endif %}
 
 - name: Install the python venv
   import_role:
     name: "python_venv_build"
   vars:
     venv_python_executable: "{{ rally_venv_python_executable }}"
-    venv_build_constraints: "{{ _u_c_contents.content.split('\n') | reject('match', '^PyYAML=') | list }}"
+    venv_build_constraints: "{{ _u_c_contents.split('\n') | reject('match', '^PyYAML=') | list }}"
     venv_build_global_constraints: "{{ [] }}"
     venv_build_distro_package_list: "{{ rally_devel_distro_packages }}"
     venv_install_destination_path: "{{ rally_bin | dirname }}"

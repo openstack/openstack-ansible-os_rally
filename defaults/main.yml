@@ -48,7 +48,7 @@ rally_openstack_git_install_branch: master
 # NOTE(mnaser): This uses the Rally upper-constraints because it
 #               is branchless and maintains it's own constraints,
 #               outside of requirements.
-rally_upper_constraints_url: "{{ rally_openstack_git_repo }}/raw/branch/master/upper-constraints.txt"
+rally_upper_constraints_url: "{{ rally_openstack_git_repo }}/raw/{{ rally_openstack_git_install_branch }}/upper-constraints.txt"
 rally_git_constraints:
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:

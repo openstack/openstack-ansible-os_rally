@@ -21,6 +21,7 @@
 
 - name: Create/upgrade Rally DB schema
   command: "{{ rally_bin }}/rally db create"
+  changed_when: false
   when:
     - rally_deployment_list_result.stdout is search("Database is missing")
 

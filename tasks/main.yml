@@ -25,7 +25,8 @@
     - always
 
 
-- include_role:
+- name: Including osa.db_setup role
+  include_role:
     name: openstack.osa.db_setup
     apply:
       tags:
@@ -44,7 +45,8 @@
   tags:
     - always
 
-- include_tasks: rally_pre_install.yml
+- name: Including rally_pre_install tasks
+  include_tasks: rally_pre_install.yml
   tags:
     - rally-install
 
@@ -57,8 +59,9 @@
   when: rally_openstack_git_repo is search('http')
 
 - name: Retrieve local filesystem upper constraints in CI
-  command:
-     git --git-dir={{ rally_openstack_git_repo.split('file://')[1] }}/.git show {{ rally_openstack_git_install_branch | default('master') }}:upper-constraints.txt
+  command: >-
+     git --git-dir={{ rally_openstack_git_repo.split('file://')[1] }}/.git show
+     {{ rally_openstack_git_install_branch | default('master') }}:upper-constraints.txt
   when: rally_openstack_git_repo is search('file://')
   register: _u_c_contents_git
   delegate_to: localhost
@@ -94,11 +97,13 @@
   tags:
     - rally-install
 
-- include_tasks: rally_post_install.yml
+- name: Including rally_post_install tasks
+  include_tasks: rally_post_install.yml
   tags:
     - rally-config
 
-- include_tasks: rally_db_setup.yml
+- name: Including rally_db_setup tasks
+  include_tasks: rally_db_setup.yml
   when: inventory_hostname == groups['utility_all'][0]
   tags:
     - rally-config

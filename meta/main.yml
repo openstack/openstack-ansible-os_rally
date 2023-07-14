@@ -18,18 +18,23 @@ galaxy_info:
   description: Install and configure OpenStack Rally
   company: Comcast Corportation
   license: Apache2
-  min_ansible_version: 2.2
+  role_name: os_rally
+  namespace: openstack
+  min_ansible_version: "2.10"
   platforms:
     - name: Debian
       versions:
-        - buster
+        - bullseye
     - name: Ubuntu
       versions:
-        - bionic
         - focal
+        - jammy
+    - name: EL
+      versions:
+        - "9"
   galaxy_tags: []
 dependencies:
   - role: apt_package_pinning
     when:
       - ansible_facts['pkg_mgr'] == 'apt'
-  - openstack_openrc
+  - role: openstack_openrc

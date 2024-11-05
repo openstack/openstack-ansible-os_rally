@@ -55,6 +55,9 @@
     url: "{{ rally_upper_constraints_url }}"
     return_content: yes
   register: _u_c_contents_uri
+  until: _u_c_contents_uri is success
+  retries: 5
+  delay: 5
   check_mode: false
   when: rally_openstack_git_repo is search('http')
 

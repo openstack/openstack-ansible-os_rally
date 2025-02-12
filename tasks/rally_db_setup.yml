@@ -14,25 +14,25 @@
 # limitations under the License.
 
 - name: Check for db
-  command: "{{ rally_bin }}/rally deployment list"
+  ansible.builtin.command: "{{ rally_bin }}/rally deployment list"
   changed_when: false
   failed_when: false
   register: rally_deployment_list_result
 
 - name: Create/upgrade Rally DB schema
-  command: "{{ rally_bin }}/rally db create"
+  ansible.builtin.command: "{{ rally_bin }}/rally db create"
   changed_when: false
   when:
     - rally_deployment_list_result.stdout is search("Database is missing")
 
 - name: Check for existing Rally deployment
-  command: "{{ rally_bin }}/rally deployment list"
+  ansible.builtin.command: "{{ rally_bin }}/rally deployment list"
   changed_when: false
   failed_when: false
   register: rally_deployment_list_result
 
 - name: Setup the Rally deployment
-  shell: |
+  ansible.builtin.shell: |
     . /root/openrc
     . {{ rally_bin }}/activate
     {{ rally_bin }}/rally deployment create --fromenv --name=existing

@@ -14,13 +14,13 @@
 # limitations under the License.
 
 - name: Create the Rally system group
-  group:
+  ansible.builtin.group:
     name: "{{ rally_system_group_name }}"
     state: "present"
     system: "yes"
 
 - name: Create the Rally system user
-  user:
+  ansible.builtin.user:
     name: "{{ rally_system_user_name }}"
     group: "{{ rally_system_group_name }}"
     comment: "{{ rally_system_user_comment }}"
@@ -30,7 +30,7 @@
     home: "{{ rally_system_user_home }}"
 
 - name: Create Rally directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: "directory"
     owner: "{{ rally_system_user_name }}"

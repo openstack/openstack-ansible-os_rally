@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Gather variables for each operating system
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
     - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
@@ -25,7 +25,7 @@
     - always
 
 - name: Including osa.db_setup role
-  include_role:
+  ansible.builtin.include_role:
     name: openstack.osa.db_setup
     apply:
       tags:
@@ -45,12 +45,12 @@
     - always
 
 - name: Including rally_pre_install tasks
-  include_tasks: rally_pre_install.yml
+  ansible.builtin.include_tasks: rally_pre_install.yml
   tags:
     - rally-install
 
 - name: Retrieve the constraints URL
-  uri:
+  ansible.builtin.uri:
     url: "{{ rally_upper_constraints_url }}"
     return_content: true
   register: _u_c_contents_uri
@@ -71,7 +71,7 @@
     - skip_ansible_lint
 
 - name: Set the constraints content
-  set_fact:
+  ansible.builtin.set_fact:
     _u_c_contents: |-
       {% if _u_c_contents_uri is not skipped %}
       {{ _u_c_contents_uri.content }}
@@ -80,7 +80,7 @@
       {% endif %}
 
 - name: Install the python venv
-  import_role:
+  ansible.builtin.import_role:
     name: "python_venv_build"
   vars:
     venv_python_executable: "{{ rally_venv_python_executable }}"
@@ -100,12 +100,12 @@
     - rally-install
 
 - name: Including rally_post_install tasks
-  include_tasks: rally_post_install.yml
+  ansible.builtin.include_tasks: rally_post_install.yml
   tags:
     - rally-config
 
 - name: Including rally_db_setup tasks
-  include_tasks: rally_db_setup.yml
+  ansible.builtin.include_tasks: rally_db_setup.yml
   when: inventory_hostname == groups['utility_all'][0]
   tags:
     - rally-config

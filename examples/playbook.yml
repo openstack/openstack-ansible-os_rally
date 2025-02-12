@@ -3,4 +3,4 @@
   hosts: rally_all
   user: root
   roles:
-   - role: "os_rally"
+    - role: "os_rally"

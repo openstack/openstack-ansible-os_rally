@@ -17,4 +17,5 @@ cache_timeout: 600
 
 rally_devel_distro_packages: []
 
-rally_distro_packages: []
+rally_distro_packages:
+  - libffi-dev

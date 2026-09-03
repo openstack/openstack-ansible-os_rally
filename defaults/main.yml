@@ -57,7 +57,7 @@ rally_upper_constraints_url: "{{ rally_openstack_git_repo }}/raw/{{ rally_openst
 rally_git_constraints:
   - "--constraint {{ rally_upper_constraints_url }}"
 rally_pip_packages:
-  - "git+{{ rally_openstack_git_repo }}@{{ rally_openstack_git_install_branch }}#egg=rally-openstack"
+  - "rally-openstack@git+{{ rally_openstack_git_repo }}@{{ rally_openstack_git_install_branch }}"
   - PyMySQL
 
 rally_config_overrides: {}
